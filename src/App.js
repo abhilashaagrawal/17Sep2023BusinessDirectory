@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+//1 Import Area
+import React from 'react'
+import Home from './pages/Home'
+import Detail from './pages/Detail'
+import Login from './pages/Login'
+import Registration from './pages/Registration'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Notfound from './pages/Notfound'
+import Layout from './components/ui/Layout'
 
-function App() {
+//2 Function Defination
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   <>
+    <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<Layout />}>
+              <Route index element={<Home />}></Route>
+              <Route path="detail" element={<Detail />}></Route>
+              <Route path="login" element={<Login />}></Route>
+              <Route path="register" element={<Registration />}></Route>
+            </Route>
+            <Route path="/*" element={<Notfound />}></Route>
+        </Routes>
+    </BrowserRouter>
+   </>
+  )
 }
 
-export default App;
+//3 Export Area

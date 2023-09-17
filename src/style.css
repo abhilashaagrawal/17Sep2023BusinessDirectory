@@ -1,0 +1,19 @@
+header{
+    border:1px dashed red;
+    height: 100px;
+}
+main{
+    border:1px dashed blue;
+    height: 1000px;
+}
+footer{
+    border:1px dashed green;
+    height: 200px;
+}
+
+@media (min-width: 1400px)
+{
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl{
+        max-width: 1445px;
+    }
+}
