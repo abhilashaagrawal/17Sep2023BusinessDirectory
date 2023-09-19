@@ -22,12 +22,12 @@ function Home() {
     return (
       <>
         <h1>Home Page</h1>
-        <ul className='nav'>
+        <ul className='nav text-center'>
           {
             businessCategory.map((cv,index,arr)=>{
-              return  <li key="index" className='text-center me-3'>
+              return  <li key="index" className='me-3'>
                         <a href="#">
-                          <img src={`${URL}`+cv.attributes.image.data.attributes.url}/> <br />
+                          <img className='img-fluid' alt='img' src={`${URL}`+cv.attributes.image.data.attributes.url}/> <br />
                           {cv.attributes.name}
                         </a>
                       </li>
