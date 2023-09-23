@@ -10,6 +10,9 @@ footer{
     border:1px dashed green;
     height: 200px;
 }
+nav >div >div>ul#nav1{
+    margin-left: 790px;
+}
 
 @media (min-width: 1400px)
 {

@@ -26,10 +26,10 @@ function Home() {
           {
             businessCategory.map((cv,index,arr)=>{
               return  <li key="index" className='me-3'>
-                        <a href="#">
-                          <img className='img-fluid' alt='img' src={`${URL}`+cv.attributes.image.data.attributes.url}/> <br />
-                          {cv.attributes.name}
-                        </a>
+                          <a href="#" className='text-center img-fluid'>
+                              <div><img className='img-fluid' alt='img' src={`${URL}`+cv.attributes.image.data.attributes.url}/></div>
+                              <div>{cv.attributes.name}</div>
+                          </a>
                       </li>
             })
           }

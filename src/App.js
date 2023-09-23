@@ -7,6 +7,7 @@ import Registration from './pages/Registration'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Notfound from './pages/Notfound'
 import Layout from './components/ui/Layout'
+import Business_register from './pages/Business_register'
 
 //2 Function Defination
 export default function App() {
@@ -19,6 +20,11 @@ export default function App() {
               <Route path="detail" element={<Detail />}></Route>
               <Route path="login" element={<Login />}></Route>
               <Route path="register" element={<Registration />}></Route>
+              {
+                // console.log(window.localStorage.getItem('jwt_token'))
+                window.localStorage.getItem('jwt_token')!==null &&
+                <Route path="business_register" element={<Business_register />}></Route>
+              }
             </Route>
             <Route path="/*" element={<Notfound />}></Route>
         </Routes>

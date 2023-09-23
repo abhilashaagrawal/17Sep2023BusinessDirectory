@@ -1,7 +1,14 @@
 import React from 'react'
 import logo from '../../logo.svg';
+import { Link } from 'react-router-dom';
 
 export default function Navigation() {
+    let myLogOut=()=>{
+        // alert('ok');
+        //remove the key and value
+        window.localStorage.removeItem('jwt_token');
+        window.location.href='/login';
+    }
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-light">
@@ -15,18 +22,33 @@ export default function Navigation() {
                         <span className="navbar-toggler-icon" />
                     </button>
                     <div className="collapse navbar-collapse" id="navbarScroll">
-                        <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-                            <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Link</a>
-                            </li>
-                        </ul>
                         <form className="d-flex" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
+
+                        <ul className="navbar-nav float-end" id='nav1'>
+                            <li className="nav-item">
+                                <Link to="/" className="nav-link active">Home</Link>
+                            </li>
+                            {
+                                window.localStorage.getItem('jwt_token')===null &&
+                                <>
+                                     <li className="nav-item">
+                                        <Link to="/login" className="nav-link">Login</Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to="/register" className="nav-link">Register</Link>
+                                    </li>
+                                </>
+                            }
+                            {
+                                window.localStorage.getItem('jwt_token')!==null &&
+                                <li className="nav-item">
+                                <Link className="nav-link" onClick={()=>{myLogOut()}}>LogOut</Link>
+                                </li>
+                            }
+                        </ul>  
                     </div>
                 </div>
             </nav >
