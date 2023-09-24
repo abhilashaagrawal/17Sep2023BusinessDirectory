@@ -44,9 +44,14 @@ export default function Navigation() {
                             }
                             {
                                 window.localStorage.getItem('jwt_token')!==null &&
-                                <li className="nav-item">
-                                <Link className="nav-link" onClick={()=>{myLogOut()}}>LogOut</Link>
-                                </li>
+                                <>
+                                    <li className="nav-item">
+                                    <Link className="nav-link" onClick={()=>{myLogOut()}}>LogOut</Link>
+                                    </li>
+                                    <li className="nav-item">
+                                    <Link className="nav-link" to="/business_register">Business Register</Link>
+                                    </li>
+                                </>
                             }
                         </ul>  
                     </div>

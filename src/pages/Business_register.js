@@ -6,9 +6,30 @@ import swal from 'sweetalert';
 //2 Function Defination
 export default function Business_register() {
     //2.1 Hook/Variables
+    const [countries,setCountries]=useState([])
+    const [states,setStates]=useState([])
     const [cities,setCities]=useState([])
     const [businessCategories,setBusinessCategories]=useState([])
     useEffect(()=>{
+
+        //call the all country api
+        fetch(`${URL}/api/countries`,{method:"GET"})
+        .then(res=>res.json())
+        .then((countrydata)=>{
+            console.log('Country data------>',countrydata.data);
+            setCountries(countrydata.data)
+        })
+        .catch(err=>err)
+
+        //call the all states api
+        fetch(`${URL}/api/states`,{method:"GET"})
+        .then(res=>res.json())
+        .then((statedata)=>{
+            console.log('State data------>',statedata.data);
+            setStates(statedata.data)
+        })
+        .catch(err=>err)
+
         //call the all city api
         fetch(`${URL}/api/cities`,{method:"GET"})
         .then(res=>res.json())
@@ -30,7 +51,7 @@ export default function Business_register() {
     },[])
 
     //2.2 function defination area
-    let busReg=(e)=>{
+    let busiReg=(e)=>{
         e.preventDefault()
         // alert('okk');
         let payload={
@@ -42,6 +63,8 @@ export default function Business_register() {
                             ]
                         }
                     }
+        console.log(document.querySelector('select[name="cityid"]'));
+        console.log(document.querySelector('select[name="cityid"]').value);
         //call the business post api
         fetch(`${URL}/api/businesses`,{
             method:"POST",
@@ -57,13 +80,56 @@ export default function Business_register() {
         })
         .catch(err=>err)
     }
+
+    let selectCountry=(e)=>{
+        // alert('okk');
+        console.log(e.target.value);
+        //get the states from country ID
+        fetch(`http://localhost:1337/api/states?filters[country][id][$eq]=${e.target.value}`)
+        .then(res=>res.json())
+        .then((statedatabycountry)=>{
+            console.log(statedatabycountry.data)
+            setStates(statedatabycountry.data)
+        })
+        .catch(err=>err)
+    }
+
+    let selectState=(e)=>{
+        // alert('okk');
+        console.log(e.target.value);
+       //get all cities by state ID
+    //    fetch(`http://localhost:1337/api/cities?filters[state][id][$eq]=1`)
+    //    .then(res=>res.json())
+    //    .then((citydatabystateid)=>{
+    //         console.log(citydatabystateid.data)
+    //         setCities(citydatabystateid)
+    //    })
+    //    .catch(err=>err)
+    }
+
     //2.3 Return statement
     return (
         <>
             <h1 className='text-center'>Business Register</h1>
             <form className='m-3'>
+                <label htmlFor="username" className="form-label">Country</label>
+                <select class="form-select mb-2" aria-label="Default select example" name='countryid' onChange={(e)=>{selectCountry(e)}} >
+                    {
+                        countries.map((cv,index,arr)=>{
+                            return <option key={index} value={cv.id} selected>{cv.attributes.name}</option>
+                        })
+                    }
+                </select>
+                <label htmlFor="username" className="form-label">State</label>
+                <select class="form-select mb-2" aria-label="Default select example" name='stateid' onChange={(e)=>{selectState(e)}}>
+                    {
+                        states.map((cv,index,arr)=>{
+                            return <option key={index} value={cv.id} selected>{cv.attributes.name}</option>
+                        })
+                    }
+                </select>
                 <label htmlFor="username" className="form-label">City</label>
-                <select class="form-select" aria-label="Default select example" name='cityid'>
+                <select class="form-select mb-2" aria-label="Default select example" name='cityid'>
                     {
                         cities.map((cv,index,arr)=>{
                             return <option key={index} value={cv.id} selected>{cv.attributes.name}</option>
@@ -71,7 +137,7 @@ export default function Business_register() {
                     }
                 </select>
                 <label htmlFor="username" className="form-label">Business Category</label>
-                <select class="form-select" aria-label="Default select example" name='buscatid'>
+                <select class="form-select mb-2" aria-label="Default select example" name='buscatid'>
                     {
                         businessCategories.map((cv,index,arr)=>{
                             return  <option key={index} value={cv.id} selected>{cv.attributes.name}</option>
@@ -82,7 +148,7 @@ export default function Business_register() {
                     <label htmlFor="username" className="form-label">Business Name</label>
                     <input type="text" name='username' className="form-control" id="username" placeholder='Enter Business Name' />
                 </div>
-                <button type="submit" className="btn btn-primary" onClick={(e)=>{busReg(e)}}>Business Register</button>
+                <button type="submit" className="btn btn-primary" onClick={(e)=>{busiReg(e)}}>Business Register</button>
             </form>
         </>
     )
