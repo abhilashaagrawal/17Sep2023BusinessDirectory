@@ -22,6 +22,7 @@ export default function Business_register() {
         .catch(err=>err)
 
         //call the all states api
+        /*
         fetch(`${URL}/api/states`,{method:"GET"})
         .then(res=>res.json())
         .then((statedata)=>{
@@ -38,6 +39,7 @@ export default function Business_register() {
             setCities(citydata.data)
         })
         .catch(err=>err)
+        */
 
         //call the all business categories api
         fetch(`${URL}/api/business-categories`,{method:"GET"})
@@ -65,18 +67,26 @@ export default function Business_register() {
                     }
         console.log(document.querySelector('select[name="cityid"]'));
         console.log(document.querySelector('select[name="cityid"]').value);
+        let token=window.localStorage.getItem('jwt_token');
         //call the business post api
-        fetch(`${URL}/api/businesses`,{
+        fetch(`${URL}/api/businesses`,{  //string interpolation
             method:"POST",
             headers:{
-                "Content-Type":'application/json'
+                "Content-Type":'application/json',
+                "Authorization": 'Bearer '+token  //concatination
             },
             body:JSON.stringify(payload)
         })
         .then(res=>res.json())
         .then((busdata)=>{
             console.log('Business Data',busdata)
+            if(busdata["data"]==null)
+            {
+                swal("Bad job!", `${busdata.error.name}`, "error");
+            }
+            else{
             swal("Good job!", "Business Register Successfully!", "success");
+            }
         })
         .catch(err=>err)
     }
@@ -123,22 +133,34 @@ export default function Business_register() {
                         })
                     }
                 </select>
-                <label htmlFor="username" className="form-label">State</label>
-                <select class="form-select mb-2" aria-label="Default select example" name='stateid' onChange={(e)=>{selectState(e)}}>
-                    {
-                        states.map((cv,index,arr)=>{
-                            return <option key={index} value={cv.id} selected>{cv.attributes.name}</option>
-                        })
-                    }
-                </select>
-                <label htmlFor="username" className="form-label">City</label>
-                <select class="form-select mb-2" aria-label="Default select example" name='cityid'>
-                    {
-                        cities.map((cv,index,arr)=>{
-                            return <option key={index} value={cv.id} selected>{cv.attributes.name}</option>
-                        })
-                    }
-                </select>
+                
+                {
+                    states.length!==0&&
+                        <>
+                            <label htmlFor="username" className="form-label">State</label>
+                            <select class="form-select mb-2" aria-label="Default select example" name='stateid' onChange={(e)=>{selectState(e)}}>
+                                {
+                                    states.map((cv,index,arr)=>{
+                                        return <option key={index} value={cv.id} selected>{cv.attributes.name}</option>
+                                    })
+                                }
+                            </select>
+                        </>
+                }
+                {
+                    cities.length!==0&&
+                    <>
+                        <label htmlFor="username" className="form-label">City</label>
+                        <select class="form-select mb-2" aria-label="Default select example" name='cityid'>
+                            {
+                                cities.map((cv,index,arr)=>{
+                                    return <option key={index} value={cv.id} selected>{cv.attributes.name}</option>
+                                })
+                            }
+                        </select>
+                    </>
+                }
+                
                 <label htmlFor="username" className="form-label">Business Category</label>
                 <select class="form-select mb-2" aria-label="Default select example" name='buscatid'>
                     {

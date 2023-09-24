@@ -20,10 +20,18 @@ export default function App() {
               <Route path="detail" element={<Detail />}></Route>
               <Route path="login" element={<Login />}></Route>
               <Route path="register" element={<Registration />}></Route>
+              {/* {
+                // Condition?TRUE:FALSE
+                (window.localStorage.getItem('jwt_token')===null)?window.location.href="/login": <Route path="business_register" element={<Business_register />}></Route>
+              } */}
               {
                 // console.log(window.localStorage.getItem('jwt_token'))
                 window.localStorage.getItem('jwt_token')!==null &&
                 <Route path="business_register" element={<Business_register />}></Route>
+              }
+              {
+                window.localStorage.getItem('jwt_token')===null &&
+                <Route path="business_register" element={<Login />}></Route>
               }
             </Route>
             <Route path="/*" element={<Notfound />}></Route>
