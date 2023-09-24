@@ -1,21 +1,39 @@
-import React from 'react'
-import logo from '../../logo.svg';
+//1 Import Area
+import React, { useEffect, useState } from 'react'
+// import logo from '../../logo.svg';
 import { Link } from 'react-router-dom';
+import URL from '../../helper/Url';
 
-export default function Navigation() {
+//2 Function Defination
+function Navigation() {
+    //2.1 Hook/Variables
+    const[logo,setLogo]=useState()
+    useEffect(()=>{
+        fetch(`${URL}/api/website?populate=*`)
+        .then(res=>res.json())
+        .then((logodata)=>{
+            console.log('LogoData---->',logodata.data.attributes.logo.data.attributes.url)
+            setLogo(logodata.data.attributes.logo.data.attributes.url)
+        })
+        .catch(err=>err)
+    },[])
+
+    //2.2 function Defination Area
     let myLogOut=()=>{
         // alert('ok');
         //remove the key and value
         window.localStorage.removeItem('jwt_token');
         window.location.href='/login';
     }
+
+    //2.3 Return Statemnet
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-light">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#">
                         <a className="navbar-brand" href="#">
-                            <img src={logo} alt="Bootstrap" width="100" height="24" />
+                            <img src={`${URL}${logo}`} alt="Bootstraplogo" width="100" height="24" />
                         </a>
                     </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,3 +78,5 @@ export default function Navigation() {
        </> 
     )
 }
+//3 Export Area
+export default Navigation

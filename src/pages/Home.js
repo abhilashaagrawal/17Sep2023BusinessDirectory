@@ -21,7 +21,7 @@ function Home() {
   //2.3 return statement
     return (
       <>
-        <h1>Home Page</h1>
+        <h1 className='ps-3'>Home Page</h1>
         <ul className='nav text-center'>
           {
             businessCategory.map((cv,index,arr)=>{

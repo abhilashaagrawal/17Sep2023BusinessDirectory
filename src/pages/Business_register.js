@@ -84,8 +84,9 @@ export default function Business_register() {
     let selectCountry=(e)=>{
         // alert('okk');
         console.log(e.target.value);
+        let country_id=e.target.value;
         //get the states from country ID
-        fetch(`http://localhost:1337/api/states?filters[country][id][$eq]=${e.target.value}`)
+        fetch(`${URL}/api/states?filters[country][id][$eq]=${country_id}&populate=*`)
         .then(res=>res.json())
         .then((statedatabycountry)=>{
             console.log(statedatabycountry.data)
@@ -97,14 +98,16 @@ export default function Business_register() {
     let selectState=(e)=>{
         // alert('okk');
         console.log(e.target.value);
+        let state_id=e.target.value;
        //get all cities by state ID
-    //    fetch(`http://localhost:1337/api/cities?filters[state][id][$eq]=1`)
-    //    .then(res=>res.json())
-    //    .then((citydatabystateid)=>{
-    //         console.log(citydatabystateid.data)
-    //         setCities(citydatabystateid)
-    //    })
-    //    .catch(err=>err)
+       fetch(`${URL}/api/cities?filters[state][id][$eq]=${state_id}&populate=*`)
+       .then(res=>res.json())
+       .then((citydatabystateid)=>{
+            console.log(citydatabystateid.data)
+            setCities(citydatabystateid.data)
+            
+       })
+       .catch(err=>err)
     }
 
     //2.3 Return statement
